@@ -5,7 +5,7 @@
         <h2 class="indigo-text">{{ smoothie.title }}</h2>
         <ul class="ingredients">
           <li v-for="(ing, index) in smoothie.ingredients" :key="index">
-            {{ ing }}
+            <div class="chip">{{ ing }}</div>
           </li>
         </ul>
       </div>
@@ -35,4 +35,25 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.index {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 30px;
+  padding-top: 60px;
+}
+
+.index h2 {
+  font-size: 1.8em;
+  text-align: center;
+  margin-top: 0;
+}
+
+.index .ingredients {
+  margin: 30px auto;
+}
+
+.index .ingredients li {
+  display: inline-block;
+}
+</style>
