@@ -11,6 +11,12 @@
             </li>
           </ul>
         </div>
+        <router-link
+          :to="{ name: 'EditSmoothie', params: { smoothie_slug: smoothie.slug }, query: { smoothie_id: smoothie.id } }"
+          class="btn-floating btn-large halfway-fab pink"
+          >
+          <i class="material-icons edit">edit</i>
+        </router-link>
       </div>
     </transition-group>
   </div>
