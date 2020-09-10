@@ -16,7 +16,7 @@
       <div class="field add-ingredient" v-show="ingredients.length < maxIngredientsAmount">
         <label for="add-ingredient">Ad an ingredient:</label>
         <input
-          v-model="another"
+          v-model.trim="another"
           placeholder="Type an ingredient name and press Tab"
           type="text"
           name="add-ingredient"
@@ -51,7 +51,7 @@ export default {
       if (this.title) {
         this.feedback = ''
         try {
-          const smoothieId = await db.collection('smoothies').add({
+          await db.collection('smoothies').add({
             title: this.title,
             ingredients: this.ingredients,
             slug: slugify(this.title, {
@@ -60,7 +60,6 @@ export default {
               lower: true
             }),
           })
-          console.log(smoothieId);
           this.$router.push({ name: 'Index' })
         } catch (error) {
           console.error(`Can't add smoothie. Error: ${error}`);
