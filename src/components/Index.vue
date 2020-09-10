@@ -14,30 +14,39 @@
   </div>
 </template>
 <script>
+import db from '@/firebase/init'
+
 export default {
   name: "Index",
   data() {
     return {
-      smoothies: [
-        {
-          title: "Ninja Brew",
-          slug: "ninja-brew",
-          ingredients: ["bananas", "coffee", "milk"],
-          id: 1,
-        },
-        {
-          title: "Morning Mood",
-          slug: "morning-modd",
-          ingredients: ["mango", "lime", "juice"],
-          id: 2,
-        },
-      ],
+      smoothies: [],
     };
   },
   methods: {
-    deleteSmoothie(id) {
-      this.smoothies = this.smoothies.filter(smoothie => smoothie.id !== id)
+    async deleteSmoothie(id) {
+      try {
+        await db.collection('smoothies').doc(id).delete()
+        this.smoothies = this.smoothies.filter(smoothie => smoothie.id !== id)
+      } catch(error) {
+        console.error(`Can't delete smoothie. An error has occured. Error: ${error}`);
+      }
+    },
+    async getSmothies() {
+      try {
+        const snapshot = await db.collection('smoothies').get()
+        snapshot.forEach(doc => {
+          let smoothie = doc.data()
+          smoothie.id = doc.id
+          this.smoothies.push(smoothie)
+        })
+      } catch(error) {
+        console.error(`Can't get smoothies. An error has occured. Error: ${error}`);
+      }
     }
+  },
+  created() {
+    this.getSmothies()
   }
 };
 </script>
